@@ -13,12 +13,12 @@ const TodoItem = ({ item, onViewTodo }) => {
 const styles = StyleSheet.create({
   todoItem: {
     width: "100%",
-    marginBottom: 8,
+    marginBottom: 12,
     paddingVertical: 10,
     paddingHorizontal: 8,
     alignItems: "center",
     backgroundColor: "#141861",
-    borderRadius: 6,
+    borderRadius: 4,
   },
   todoText: {
     color: "#fff",

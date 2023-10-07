@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import TodoForm from "./components/TodoForm";
 import Todos from "./components/Todos";
 import CustomButton from "./components/CustomButton";
@@ -9,14 +9,14 @@ export default function App() {
   const [todoText, setTodoText] = useState("");
   const [todos, setTodos] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [todo, setTodo] = useState({id: null, text: ""});
+  const [todo, setTodo] = useState({ id: null, text: "" });
 
   const onTodoTextChange = (text) => {
     setTodoText(text);
   };
 
   const onTodoTextUpdate = (text) => {
-    setTodo({...todo, text});
+    setTodo({ ...todo, text });
   };
 
   const onAddTodo = async () => {
@@ -35,18 +35,24 @@ export default function App() {
     onToggleModal();
   };
 
-  const onViewTodo = (item)=> {
+  const onViewTodo = (item) => {
     setTodo(item);
     onToggleModal();
-  }
+  };
 
-  const onUpdateTodo = async (item)=> {
-    const todosJSON = JSON.stringify([...todos].map((todoItem)=> todoItem?.id === item?.id ? item : todoItem));
-    setTodos((prev)=> [...prev].map((todoItem)=> todoItem?.id === item?.id ? item : todoItem));
+  const onUpdateTodo = async (item) => {
+    const todosJSON = JSON.stringify(
+      [...todos].map((todoItem) =>
+        todoItem?.id === item?.id ? item : todoItem
+      )
+    );
+    setTodos((prev) =>
+      [...prev].map((todoItem) => (todoItem?.id === item?.id ? item : todoItem))
+    );
     await AsyncStorage.setItem("todos", todosJSON);
     onToggleModal();
-    setTodo({id: null, text: ""});
-  }
+    setTodo({ id: null, text: "" });
+  };
 
   const onDeleteTodo = async (id) => {
     const todosJSON = JSON.stringify(
@@ -55,7 +61,7 @@ export default function App() {
     setTodos(JSON.parse(todosJSON));
     await AsyncStorage.setItem("todos", todosJSON);
     onToggleModal();
-    setTodo({id: null, text: ""});
+    setTodo({ id: null, text: "" });
   };
 
   const onToggleModal = () => {
@@ -79,6 +85,9 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
+      <View style={styles.headerDiv}>
+        <Text style={styles.header}>My Todo list</Text>
+      </View>
       <TodoForm
         todo={todo}
         todoText={todoText}
@@ -98,7 +107,11 @@ export default function App() {
           onPress={onToggleModal}
         />
       </View>
-      <Todos todos={todos} onDeleteTodo={onDeleteTodo} onViewTodo={onViewTodo} />
+      <Todos
+        todos={todos}
+        onDeleteTodo={onDeleteTodo}
+        onViewTodo={onViewTodo}
+      />
     </View>
   );
 }
@@ -119,5 +132,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "rgb(175, 164, 255)",
     backgroundColor: "transparent",
+  },
+  headerDiv: {
+    width: "100%",
+    marginTop: 26,
+    // flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
